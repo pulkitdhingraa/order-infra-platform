@@ -3,15 +3,13 @@ package db
 import (
 	"database/sql"
 	"log"
-	"os"
-	"strings"
 	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
 
 func Init() {
-	connStr := "host=localhost port=5432 user=postgres password=postgres dbname=order_service_db sslmode=disable"
+	connStr := "host=host.docker.internal port=5432 user=postgres password=postgres dbname=order_service_db sslmode=disable"
 	var err error
 	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
@@ -23,25 +21,25 @@ func Init() {
 	}
 
 	log.Println("Connected to PostgreSQL")
-	applySchemaFromFile("app/db/schema.sql")
+	// applySchemaFromFile("app/db/schema.sql")
 }
 
-func applySchemaFromFile(path string) {
-	sqlBytes, err := os.ReadFile(path)
-	if err != nil {
-		log.Fatalf("Could not read schema file: %v", err)
-	}
+// func applySchemaFromFile(path string) {
+// 	sqlBytes, err := os.ReadFile(path)
+// 	if err != nil {
+// 		log.Fatalf("Could not read schema file: %v", err)
+// 	}
 
-	queries := strings.Split(string(sqlBytes), ";")
-	for _, q := range queries {
-		q = strings.TrimSpace(q)
-		if q == "" {
-			continue
-		}
-		_, err := DB.Exec(q)
-		if err != nil {
-			log.Fatalf("Failed to execute schema query: %v", err)
-		}
-	}
-	log.Println("Schema Applied Successfully")
-}
+// 	queries := strings.Split(string(sqlBytes), ";")
+// 	for _, q := range queries {
+// 		q = strings.TrimSpace(q)
+// 		if q == "" {
+// 			continue
+// 		}
+// 		_, err := DB.Exec(q)
+// 		if err != nil {
+// 			log.Fatalf("Failed to execute schema query: %v", err)
+// 		}
+// 	}
+// 	log.Println("Schema Applied Successfully")
+// }

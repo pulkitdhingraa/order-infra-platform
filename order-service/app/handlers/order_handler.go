@@ -26,9 +26,9 @@ func CreateOrder(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(err.Error(), "not found") {
 			http.Error(w, err.Error(), http.StatusNotFound)
 		}
-		
+
 		log.Printf("Internal Error creating order: %v", err)
-		http.Error(w, "Could not create order", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

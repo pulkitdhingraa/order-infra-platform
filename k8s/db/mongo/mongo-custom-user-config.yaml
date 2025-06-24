@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-user
+data:
+  custom-user.sh: |
+    #!/bin/bash
+    set -e;
+
+    # a default non-root role
+    MONGO_NON_ROOT_ROLE="${MONGO_NON_ROOT_ROLE:-readWrite}"
+
+    if [ -n "${MONGO_NON_ROOT_USERNAME:-}" ] && [ -n "${MONGO_NON_ROOT_PASSWORD:-}" ]; then
+      "${mongo[@]}" "$MONGO_INITDB_DATABASE" <<EOF
+        db.createUser({
+          user: $(_js_escape "$MONGO_NON_ROOT_USERNAME"),
+          pwd: $(_js_escape "$MONGO_NON_ROOT_PASSWORD"),
+          roles: [ { role: "$MONGO_NON_ROOT_ROLE", db: "$MONGO_INITDB_DATABASE" } ]
+          })
+    EOF
+    else
+      echo "Missing MONGO_NON_ROOT_USERNAME or MONGO_NON_ROOT_PASSWORD"
+      exit 1
+    fi

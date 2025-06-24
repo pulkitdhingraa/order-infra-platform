@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-migration-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrate-postgres
+          image: postgres:17
+          command:  ["sh", "-c"]
+          args: 
+            - psql -h postgres -U $POSTGRES_USER -d $POSTGRES_DB -f migrations/schema.sql 
+          env:
+            - name: PGPASSWORD
+              valueFrom: 
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: migration-sql
+              mountPath: /migrations
+              readOnly: true
+      restartPolicy: OnFailure
+      volumes:
+        - name: migration-sql
+          configMap:
+            name: postgresql-schema

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seed-config
+data:
+  seed.sql: |
+    INSERT INTO products (product_name) 
+    VALUES ('tv'), ('laptop'), ('mobile'), ('watch'), ('shirt');
