@@ -1,0 +1,3 @@
+minikube service --url order-service
+
+curl -X POST http://127.0.0.1:{nodeport}/order -H 'Content-Type: application/json' -d '{"user_id":"", "product_name": "watch", "qty":2}'

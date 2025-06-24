@@ -1,0 +1,13 @@
+minikube service --url user-service (creates temporary nodeport)
+
+curl -X POST http://127.0.0.1:{nodeport}/users/register -H 'Content-Type: application/json' -d '{
+  "email": "pulkit@example.com",
+  "first_name": "Pulkit",
+  "last_name": "Dhingra",
+  "address": {
+    "flat": "A-203",
+    "street": "MG Road",
+    "city": "Delhi",
+    "zip": 110001
+  }
+}'

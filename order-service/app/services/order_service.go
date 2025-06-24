@@ -41,7 +41,7 @@ func getProductIdByName(name string) (int, error) {
 }
 
 func fetchUserDetails(userId string) (*models.UserInfo, error) {
-	url := fmt.Sprintf("http://host.docker.internal:8080/users/details/%s", userId)
+	url := fmt.Sprintf("http://user-service:8080/users/details/%s", userId)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("failed to call user-service for user details: %w", err)

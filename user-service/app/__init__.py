@@ -9,7 +9,7 @@ from app.db.mongo import mongo
 def create_app():
     app = Flask(__name__)
 
-    app.config["MONGO_URI"] = "mongodb://host.docker.internal:27017/user_service_db"
+    app.config["MONGO_URI"] = "mongodb://admin:password@mongo:27017/user_service_db"
 
     app.register_blueprint(register_bp, url_prefix="/users")
     app.register_blueprint(delete_bp, url_prefix="/users")

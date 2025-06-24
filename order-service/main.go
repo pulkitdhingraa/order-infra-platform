@@ -33,6 +33,6 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/order", handlers.CreateOrder)
 	loggedMux := loggingMiddleware(mux)
-	log.Println("Listening on port :8081")
-	log.Fatal(http.ListenAndServe(":8081", loggedMux))
+	log.Println("Listening on port :8080")
+	log.Fatal(http.ListenAndServe(":8080", loggedMux))
 }
