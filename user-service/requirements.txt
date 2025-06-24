@@ -1,6 +1,5 @@
 Flask
-bson
-pymongo[srv]
+pymongo
 Flask-PyMongo
 pydantic
 pydantic[email]
