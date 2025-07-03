@@ -22,3 +22,13 @@ variable "cluster_name" {
   description = "Name of aws eks cluster"
   type = string
 }
+
+variable "postgres_secret" {
+  description = "Secret info for Postgres DB"
+  type = map(string)
+}
+
+variable "mongo_secret" {
+  description = "Secret info for Mongo DB"
+  type = map(string)
+}

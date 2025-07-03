@@ -21,3 +21,11 @@ output "eks_cluster_endpoint" {
 output "eks_cluster_certificate_authority" {
   value = module.eks.eks_cluster_certificate_authority
 }
+
+output "db_backup_bucket_id" {
+  value = module.s3.bucket_id
+}
+
+output "rds_db_name" {
+  value = module.rds.db_name
+}

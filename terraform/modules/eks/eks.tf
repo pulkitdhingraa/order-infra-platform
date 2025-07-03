@@ -28,6 +28,15 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   role = aws_iam_role.eks_cluster.name
 }
 
+resource "aws_security_group" "eks" {
+  name = "eks-cluster-sg"
+  vpc_id = var.vpc_id
+}
+
+resource "aws_launch_template" "eks_node_group" {
+  vpc_security_group_ids = [aws_security_group.eks.id]
+}
+
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name = var.cluster_name
   node_group_name = "eks-node-group"
@@ -40,6 +49,11 @@ resource "aws_eks_node_group" "eks_node_group" {
     desired_size = 2
     max_size = 3
     min_size = 0
+  }
+
+  launch_template {
+    id = aws_launch_template.eks_node_group.id
+    version = "$Latest"
   }
 
   depends_on = [
